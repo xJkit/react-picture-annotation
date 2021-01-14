@@ -47,6 +47,7 @@ export interface IShapeAdjustBase {
 
 export interface IShapeData extends IShapeBase {
   type: string;
+  idx: string;
 }
 
 export interface IRectShapeData extends IShapeData {
@@ -148,10 +149,12 @@ export class RectShape implements IShape {
       canvas2D.fillStyle = shapeBackground;
       canvas2D.fillRect(x, y, width, height);
     } else {
-      const { comment } = this.annotationData;
-      if (comment) {
+      const { comment, order } = this.annotationData;
+      const orderText = typeof order === 'number' ? order.toString() : '';
+      const labelText = orderText || comment;
+      if (labelText) {
         canvas2D.font = `${fontSize}px ${fontFamily}`;
-        const metrics = canvas2D.measureText(comment);
+        const metrics = canvas2D.measureText(labelText);
         canvas2D.save();
         canvas2D.fillStyle = fontBackground;
         canvas2D.fillRect(
@@ -162,7 +165,7 @@ export class RectShape implements IShape {
         );
         canvas2D.textBaseline = "top";
         canvas2D.fillStyle = fontColor;
-        canvas2D.fillText(comment, x + padding, y + padding);
+        canvas2D.fillText(labelText, x + padding, y + padding);
       }
     }
     canvas2D.restore();

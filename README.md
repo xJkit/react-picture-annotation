@@ -73,7 +73,7 @@ ReactDOM.render(<App />, rootElement);
 
 ## IShapeStyle
 
-ReactPictureAnnotation can be easily modified the style through a prop named `annotationStyle`                                                                                      
+ReactPictureAnnotation can be easily modified the style through a prop named `annotationStyle`
 
 ```typescript
 export const defaultShapeStyle: IShapeStyle = {
@@ -84,14 +84,14 @@ export const defaultShapeStyle: IShapeStyle = {
   fontBackground: "#f8f9fa", // text background color
   fontFamily:
     "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen-Sans, Ubuntu, Cantarell, 'Helvetica Neue', Helvetica, Arial, sans-serif",
-  
+
   /** stroke style **/
   lineWidth: 2, // stroke width
   shapeBackground: "hsla(210, 16%, 93%, 0.2)", // background color in the middle of the marker
   shapeStrokeStyle: "#f8f9fa", // shape stroke color
   shadowBlur: 10, // stroke shadow blur
   shapeShadowStyle: "hsla(210, 9%, 31%, 0.35)", // shape shadow color
-  
+
   /** transformer style **/
   transformerBackground: "#5c7cfa",
   transformerSize: 10
@@ -104,6 +104,7 @@ export const defaultShapeStyle: IShapeStyle = {
 {
   id:"to identify this shape",    // required,
   comment:"string type comment",  // not required
+  order: 100, // 資料的編號位置，有給數值的話會優先顯示
   mark:{
     type:"RECT",                  // now only support rect
 
