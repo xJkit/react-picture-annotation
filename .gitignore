@@ -66,7 +66,6 @@ typings/
 
 # build
 build
-dist
 .rpt2_cache
 
 # storybook

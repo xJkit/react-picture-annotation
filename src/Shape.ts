@@ -47,7 +47,6 @@ export interface IShapeAdjustBase {
 
 export interface IShapeData extends IShapeBase {
   type: string;
-  idx: string;
 }
 
 export interface IRectShapeData extends IShapeData {
@@ -150,7 +149,7 @@ export class RectShape implements IShape {
       canvas2D.fillRect(x, y, width, height);
     } else {
       const { comment, order } = this.annotationData;
-      const orderText = typeof order === 'number' ? order.toString() : '';
+      const orderText = typeof order === "number" ? order.toString() : "";
       const labelText = orderText || comment;
       if (labelText) {
         canvas2D.font = `${fontSize}px ${fontFamily}`;
