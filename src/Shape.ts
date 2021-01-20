@@ -9,6 +9,7 @@ export const defaultShapeStyle: IShapeStyle = {
   fontBackground: "#f8f9fa",
   secondaryFontColor: "#212529",
   secondaryFontBackground: "#f8f9fa",
+  secondaryShapeStrokeStyle: "#f8f9fa",
   fontFamily:
     "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen-Sans, Ubuntu, Cantarell, 'Helvetica Neue', Helvetica, Arial, sans-serif",
   shapeBackground: "hsla(210, 16%, 93%, 0.2)",
@@ -27,6 +28,7 @@ export interface IShapeStyle {
   fontBackground: string;
   secondaryFontColor: string;
   secondaryFontBackground: string;
+  secondaryShapeStrokeStyle: string;
   fontFamily: string;
   shapeBackground: string;
   shapeStrokeStyle: string;
@@ -141,12 +143,16 @@ export class RectShape implements IShape {
       fontFamily,
       shapeBackground,
       shapeStrokeStyle,
+      secondaryShapeStrokeStyle,
       shapeShadowStyle,
     } = this.shapeStyle;
 
+    const { comment, order } = this.annotationData;
+    const orderText = typeof order === "number" ? order.toString() : "";
+
     canvas2D.shadowBlur = shadowBlur;
     canvas2D.shadowColor = shapeShadowStyle;
-    canvas2D.strokeStyle = shapeStrokeStyle;
+    canvas2D.strokeStyle = orderText ? shapeStrokeStyle : secondaryShapeStrokeStyle;
     canvas2D.lineWidth = lineWidth;
     canvas2D.strokeRect(x, y, width, height);
     canvas2D.restore();
@@ -154,8 +160,6 @@ export class RectShape implements IShape {
       canvas2D.fillStyle = shapeBackground;
       canvas2D.fillRect(x, y, width, height);
     } else {
-      const { comment, order } = this.annotationData;
-      const orderText = typeof order === "number" ? order.toString() : "";
       const labelText = orderText || comment;
       if (labelText) {
         canvas2D.font = `${fontSize}px ${fontFamily}`;
