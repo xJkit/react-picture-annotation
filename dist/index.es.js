@@ -251,6 +251,8 @@ var defaultShapeStyle = {
   fontSize: 12,
   fontColor: "#212529",
   fontBackground: "#f8f9fa",
+  secondaryFontColor: "#212529",
+  secondaryFontBackground: "#f8f9fa",
   fontFamily: "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen-Sans, Ubuntu, Cantarell, 'Helvetica Neue', Helvetica, Arial, sans-serif",
   shapeBackground: "hsla(210, 16%, 93%, 0.2)",
   shapeStrokeStyle: "#f8f9fa",
@@ -311,6 +313,8 @@ var RectShape = function RectShape(_data, onChange) {
         fontSize = _this$shapeStyle.fontSize,
         fontColor = _this$shapeStyle.fontColor,
         fontBackground = _this$shapeStyle.fontBackground,
+        secondaryFontColor = _this$shapeStyle.secondaryFontColor,
+        secondaryFontBackground = _this$shapeStyle.secondaryFontBackground,
         fontFamily = _this$shapeStyle.fontFamily,
         shapeBackground = _this$shapeStyle.shapeBackground,
         shapeStrokeStyle = _this$shapeStyle.shapeStrokeStyle,
@@ -329,17 +333,17 @@ var RectShape = function RectShape(_data, onChange) {
       var _this$annotationData = _this.annotationData,
           _comment = _this$annotationData.comment,
           order = _this$annotationData.order;
-      var orderText = typeof order === 'number' ? order.toString() : '';
+      var orderText = typeof order === "number" ? order.toString() : "";
       var labelText = orderText || _comment;
 
       if (labelText) {
         canvas2D.font = "".concat(fontSize, "px ").concat(fontFamily);
         var metrics = canvas2D.measureText(labelText);
         canvas2D.save();
-        canvas2D.fillStyle = fontBackground;
+        canvas2D.fillStyle = orderText ? fontBackground : secondaryFontBackground;
         canvas2D.fillRect(x, y, metrics.width + padding * 2, fontSize + padding * 2);
         canvas2D.textBaseline = "top";
-        canvas2D.fillStyle = fontColor;
+        canvas2D.fillStyle = orderText ? fontColor : secondaryFontColor;
         canvas2D.fillText(labelText, x + padding, y + padding);
       }
     }

@@ -5,6 +5,8 @@ export var defaultShapeStyle = {
     fontSize: 12,
     fontColor: "#212529",
     fontBackground: "#f8f9fa",
+    secondaryFontColor: "#212529",
+    secondaryFontBackground: "#f8f9fa",
     fontFamily: "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen-Sans, Ubuntu, Cantarell, 'Helvetica Neue', Helvetica, Arial, sans-serif",
     shapeBackground: "hsla(210, 16%, 93%, 0.2)",
     shapeStrokeStyle: "#f8f9fa",
@@ -38,7 +40,7 @@ var RectShape = /** @class */ (function () {
         this.paint = function (canvas2D, calculateTruePosition, selected) {
             var _a = calculateTruePosition(_this.annotationData.mark), x = _a.x, y = _a.y, width = _a.width, height = _a.height;
             canvas2D.save();
-            var _b = _this.shapeStyle, padding = _b.padding, lineWidth = _b.lineWidth, shadowBlur = _b.shadowBlur, fontSize = _b.fontSize, fontColor = _b.fontColor, fontBackground = _b.fontBackground, fontFamily = _b.fontFamily, shapeBackground = _b.shapeBackground, shapeStrokeStyle = _b.shapeStrokeStyle, shapeShadowStyle = _b.shapeShadowStyle;
+            var _b = _this.shapeStyle, padding = _b.padding, lineWidth = _b.lineWidth, shadowBlur = _b.shadowBlur, fontSize = _b.fontSize, fontColor = _b.fontColor, fontBackground = _b.fontBackground, secondaryFontColor = _b.secondaryFontColor, secondaryFontBackground = _b.secondaryFontBackground, fontFamily = _b.fontFamily, shapeBackground = _b.shapeBackground, shapeStrokeStyle = _b.shapeStrokeStyle, shapeShadowStyle = _b.shapeShadowStyle;
             canvas2D.shadowBlur = shadowBlur;
             canvas2D.shadowColor = shapeShadowStyle;
             canvas2D.strokeStyle = shapeStrokeStyle;
@@ -51,16 +53,18 @@ var RectShape = /** @class */ (function () {
             }
             else {
                 var _c = _this.annotationData, comment = _c.comment, order = _c.order;
-                var orderText = typeof order === 'number' ? order.toString() : '';
+                var orderText = typeof order === "number" ? order.toString() : "";
                 var labelText = orderText || comment;
                 if (labelText) {
                     canvas2D.font = fontSize + "px " + fontFamily;
                     var metrics = canvas2D.measureText(labelText);
                     canvas2D.save();
-                    canvas2D.fillStyle = fontBackground;
+                    canvas2D.fillStyle = orderText
+                        ? fontBackground
+                        : secondaryFontBackground;
                     canvas2D.fillRect(x, y, metrics.width + padding * 2, fontSize + padding * 2);
                     canvas2D.textBaseline = "top";
-                    canvas2D.fillStyle = fontColor;
+                    canvas2D.fillStyle = orderText ? fontColor : secondaryFontColor;
                     canvas2D.fillText(labelText, x + padding, y + padding);
                 }
             }

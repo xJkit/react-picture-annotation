@@ -7,6 +7,8 @@ export interface IShapeStyle {
     fontSize: number;
     fontColor: string;
     fontBackground: string;
+    secondaryFontColor: string;
+    secondaryFontBackground: string;
     fontFamily: string;
     shapeBackground: string;
     shapeStrokeStyle: string;
