@@ -7,6 +7,8 @@ export const defaultShapeStyle: IShapeStyle = {
   fontSize: 12,
   fontColor: "#212529",
   fontBackground: "#f8f9fa",
+  secondaryFontColor: "#212529",
+  secondaryFontBackground: "#f8f9fa",
   fontFamily:
     "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen-Sans, Ubuntu, Cantarell, 'Helvetica Neue', Helvetica, Arial, sans-serif",
   shapeBackground: "hsla(210, 16%, 93%, 0.2)",
@@ -23,6 +25,8 @@ export interface IShapeStyle {
   fontSize: number;
   fontColor: string;
   fontBackground: string;
+  secondaryFontColor: string;
+  secondaryFontBackground: string;
   fontFamily: string;
   shapeBackground: string;
   shapeStrokeStyle: string;
@@ -132,6 +136,8 @@ export class RectShape implements IShape {
       fontSize,
       fontColor,
       fontBackground,
+      secondaryFontColor,
+      secondaryFontBackground,
       fontFamily,
       shapeBackground,
       shapeStrokeStyle,
@@ -155,7 +161,9 @@ export class RectShape implements IShape {
         canvas2D.font = `${fontSize}px ${fontFamily}`;
         const metrics = canvas2D.measureText(labelText);
         canvas2D.save();
-        canvas2D.fillStyle = fontBackground;
+        canvas2D.fillStyle = orderText
+          ? fontBackground
+          : secondaryFontBackground;
         canvas2D.fillRect(
           x,
           y,
@@ -163,7 +171,7 @@ export class RectShape implements IShape {
           fontSize + padding * 2
         );
         canvas2D.textBaseline = "top";
-        canvas2D.fillStyle = fontColor;
+        canvas2D.fillStyle = orderText ? fontColor : secondaryFontColor;
         canvas2D.fillText(labelText, x + padding, y + padding);
       }
     }
