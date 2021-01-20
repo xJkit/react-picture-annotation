@@ -7,6 +7,7 @@ export var defaultShapeStyle = {
     fontBackground: "#f8f9fa",
     secondaryFontColor: "#212529",
     secondaryFontBackground: "#f8f9fa",
+    secondaryShapeStrokeStyle: "#f8f9fa",
     fontFamily: "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen-Sans, Ubuntu, Cantarell, 'Helvetica Neue', Helvetica, Arial, sans-serif",
     shapeBackground: "hsla(210, 16%, 93%, 0.2)",
     shapeStrokeStyle: "#f8f9fa",
@@ -40,10 +41,12 @@ var RectShape = /** @class */ (function () {
         this.paint = function (canvas2D, calculateTruePosition, selected) {
             var _a = calculateTruePosition(_this.annotationData.mark), x = _a.x, y = _a.y, width = _a.width, height = _a.height;
             canvas2D.save();
-            var _b = _this.shapeStyle, padding = _b.padding, lineWidth = _b.lineWidth, shadowBlur = _b.shadowBlur, fontSize = _b.fontSize, fontColor = _b.fontColor, fontBackground = _b.fontBackground, secondaryFontColor = _b.secondaryFontColor, secondaryFontBackground = _b.secondaryFontBackground, fontFamily = _b.fontFamily, shapeBackground = _b.shapeBackground, shapeStrokeStyle = _b.shapeStrokeStyle, shapeShadowStyle = _b.shapeShadowStyle;
+            var _b = _this.shapeStyle, padding = _b.padding, lineWidth = _b.lineWidth, shadowBlur = _b.shadowBlur, fontSize = _b.fontSize, fontColor = _b.fontColor, fontBackground = _b.fontBackground, secondaryFontColor = _b.secondaryFontColor, secondaryFontBackground = _b.secondaryFontBackground, fontFamily = _b.fontFamily, shapeBackground = _b.shapeBackground, shapeStrokeStyle = _b.shapeStrokeStyle, secondaryShapeStrokeStyle = _b.secondaryShapeStrokeStyle, shapeShadowStyle = _b.shapeShadowStyle;
+            var _c = _this.annotationData, comment = _c.comment, order = _c.order;
+            var orderText = typeof order === "number" ? order.toString() : "";
             canvas2D.shadowBlur = shadowBlur;
             canvas2D.shadowColor = shapeShadowStyle;
-            canvas2D.strokeStyle = shapeStrokeStyle;
+            canvas2D.strokeStyle = orderText ? shapeStrokeStyle : secondaryShapeStrokeStyle;
             canvas2D.lineWidth = lineWidth;
             canvas2D.strokeRect(x, y, width, height);
             canvas2D.restore();
@@ -52,8 +55,6 @@ var RectShape = /** @class */ (function () {
                 canvas2D.fillRect(x, y, width, height);
             }
             else {
-                var _c = _this.annotationData, comment = _c.comment, order = _c.order;
-                var orderText = typeof order === "number" ? order.toString() : "";
                 var labelText = orderText || comment;
                 if (labelText) {
                     canvas2D.font = fontSize + "px " + fontFamily;

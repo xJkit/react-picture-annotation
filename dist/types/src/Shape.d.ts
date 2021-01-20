@@ -9,6 +9,7 @@ export interface IShapeStyle {
     fontBackground: string;
     secondaryFontColor: string;
     secondaryFontBackground: string;
+    secondaryShapeStrokeStyle: string;
     fontFamily: string;
     shapeBackground: string;
     shapeStrokeStyle: string;
