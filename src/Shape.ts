@@ -7,9 +7,9 @@ export const defaultShapeStyle: IShapeStyle = {
   fontSize: 12,
   fontColor: "#212529",
   fontBackground: "#f8f9fa",
-  secondaryFontColor: "#212529",
   secondaryFontBackground: "#f8f9fa",
   secondaryShapeStrokeStyle: "#f8f9fa",
+  secondaryFontColor: "#212529",
   fontFamily:
     "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen-Sans, Ubuntu, Cantarell, 'Helvetica Neue', Helvetica, Arial, sans-serif",
   shapeBackground: "hsla(210, 16%, 93%, 0.2)",
