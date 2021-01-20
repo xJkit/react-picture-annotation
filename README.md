@@ -95,6 +95,10 @@ export const defaultShapeStyle: IShapeStyle = {
   /** transformer style **/
   transformerBackground: "#5c7cfa",
   transformerSize: 10
+
+  /* 當沒有 order 欄位的時候會出現的樣式顏色 */
+  secondaryFontColor: "#212529",
+  secondaryFontBackground: "#f8f9fa",
 };
 ```
 
