@@ -345,7 +345,6 @@ var ReactPictureAnnotation = /** @class */ (function (_super) {
             }
             var _b = _this.scaleState, originX = _b.originX, originY = _b.originY, scale = _b.scale;
             var _c = event.nativeEvent, offsetX = _c.offsetX, offsetY = _c.offsetY;
-            console.log('offsetX / originX:', offsetX, originX);
             _this.scaleState.originX =
                 offsetX - ((offsetX - originX) / preScale) * scale;
             _this.scaleState.originY =

@@ -521,7 +521,6 @@ export default class ReactPictureAnnotation extends React.Component<
 
     const { originX, originY, scale } = this.scaleState;
     const { offsetX, offsetY } = event.nativeEvent;
-    console.log('offsetX / originX:', offsetX, originX);
     this.scaleState.originX =
       offsetX - ((offsetX - originX) / preScale) * scale;
     this.scaleState.originY =

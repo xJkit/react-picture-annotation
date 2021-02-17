@@ -1356,7 +1356,6 @@
         var _event$nativeEvent3 = event.nativeEvent,
             offsetX = _event$nativeEvent3.offsetX,
             offsetY = _event$nativeEvent3.offsetY;
-        console.log('offsetX / originX:', offsetX, originX);
         _this.scaleState.originX = offsetX - (offsetX - originX) / preScale * scale;
         _this.scaleState.originY = offsetY - (offsetY - originY) / preScale * scale;
 
