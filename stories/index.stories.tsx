@@ -1,6 +1,6 @@
 import { withA11y } from '@storybook/addon-a11y';
 import { addDecorator, storiesOf } from '@storybook/react';
-import React, { useEffect, useState, useCallback } from 'react';
+import React, { useEffect, useState, useCallback, useRef } from 'react';
 
 import {
   DefaultInputSection,
@@ -37,6 +37,7 @@ storiesOf('Hello World', module)
         },
       ]);
 
+      const componentRef = useRef<ReactPictureAnnotation>(null);
       const [selectedId, setSelectedId] = useState<string | null>('a');
       const [toolState, setToolState] = useState('normal');
 
@@ -51,6 +52,24 @@ storiesOf('Hello World', module)
         (e) => setToolState(e.target.name),
         [setToolState]
       );
+
+      const onZoomIn = useCallback(() => {
+        if (componentRef.current) {
+          componentRef.current.zoomIn();
+        }
+      }, [componentRef]);
+
+      const onZoomOut = useCallback(() => {
+        if (componentRef.current) {
+          componentRef.current.zoomOut();
+        }
+      }, [componentRef]);
+
+      const onZoomReset = useCallback(() => {
+        if (componentRef.current) {
+          componentRef.current.zoomReset();
+        }
+      }, [componentRef]);
 
       useEffect(() => {
         window.addEventListener('resize', onResize);
@@ -79,7 +98,11 @@ storiesOf('Hello World', module)
             />
             <span>Drag</span>
           </label>
+          <button onClick={onZoomIn}>zoom in</button>
+          <button onClick={onZoomOut}>zoom out</button>
+          <button onClick={onZoomReset}>reset zoom</button>
           <ReactPictureAnnotation
+            ref={componentRef}
             width={size.width}
             height={size.height}
             toolState={toolState}

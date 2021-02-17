@@ -440,6 +440,65 @@ export default class ReactPictureAnnotation extends React.Component<
     this.currentAnnotationState.onMouseLeave();
   };
 
+  public zoomIn = () => {
+    const { scale: prevScale } = this.scaleState;
+    this.scaleState.scale =
+      this.scaleState.scale > 10 ? 10 : this.scaleState.scale + 0.1;
+    if (this.currentImageElement) {
+      // this.scaleState.originX = this.imageCanvasRef.current.width / 2;
+      const offsetX = this.currentImageElement.width / 2;
+      const offsetY = this.currentImageElement.height / 2;
+
+      const { scale: currentScale, originX, originY } = this.scaleState;
+
+      this.scaleState.originX =
+        offsetX - ((offsetX - originX) / prevScale) * currentScale;
+      this.scaleState.originY =
+        offsetY - ((offsetY - originY) / prevScale) * currentScale;
+    }
+    this.setState({ imageScale: this.scaleState });
+
+    requestAnimationFrame(() => {
+      this.onShapeChange();
+      this.onImageChange();
+    });
+  };
+
+  public zoomOut = () => {
+    const { scale: prevScale } = this.scaleState;
+    this.scaleState.scale =
+      this.scaleState.scale < 0.1 ? 0.1 : this.scaleState.scale - 0.1;
+    if (this.currentImageElement) {
+      // this.scaleState.originX = this.imageCanvasRef.current.width / 2;
+      const offsetX = this.currentImageElement.width / 2;
+      const offsetY = this.currentImageElement.height / 2;
+
+      const { scale: currentScale, originX, originY } = this.scaleState;
+
+      this.scaleState.originX =
+        offsetX - ((offsetX - originX) / prevScale) * currentScale;
+      this.scaleState.originY =
+        offsetY - ((offsetY - originY) / prevScale) * currentScale;
+    }
+    this.setState({ imageScale: this.scaleState });
+
+    requestAnimationFrame(() => {
+      this.onShapeChange();
+      this.onImageChange();
+    });
+  };
+
+  public zoomReset = () => {
+    this.scaleState.scale = 1;
+    this.scaleState.originX = 0;
+    this.scaleState.originY = 0;
+    this.setState({ imageScale: this.scaleState });
+    requestAnimationFrame(() => {
+      this.onShapeChange();
+      this.onImageChange();
+    });
+  };
+
   private onWheel = (event: React.WheelEvent<HTMLCanvasElement>) => {
     // https://stackoverflow.com/a/31133823/9071503
     const { clientHeight, scrollTop, scrollHeight } = event.currentTarget;
@@ -462,6 +521,7 @@ export default class ReactPictureAnnotation extends React.Component<
 
     const { originX, originY, scale } = this.scaleState;
     const { offsetX, offsetY } = event.nativeEvent;
+    console.log('offsetX / originX:', offsetX, originX);
     this.scaleState.originX =
       offsetX - ((offsetX - originX) / preScale) * scale;
     this.scaleState.originY =

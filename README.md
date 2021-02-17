@@ -72,6 +72,14 @@ ReactDOM.render(<App />, rootElement);
 | marginWithInput | `number`                                                                                        | Margin between input and mark, default 1   | X        |
 | toolState       | `string`                                                                                        | Enum: normal or drag, defaults to normal   | X        |
 
+## ReactPictureAnnotation Instance Method
+
+| Name            | Type                                                                                            | Comment                                    |
+| --------------- | ----------------------------------------------------------------------------------------------- | ------------------------------------------ |
+| zoomIn          | `() => void`                                                                                    | Zoom in with scale 0.1. Max scale is 10    |
+| zoomOut         | `() => void`                                                                                    | Zoom out with scale 0.1. Min scale is 0.1  |
+| zoomReset       | `() => void`                                                                                    | Reset zoom scale to 1.                     |
+
 ## IShapeStyle
 
 ReactPictureAnnotation can be easily modified the style through a prop named `annotationStyle`

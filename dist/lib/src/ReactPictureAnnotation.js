@@ -274,6 +274,56 @@ var ReactPictureAnnotation = /** @class */ (function (_super) {
         _this.onMouseLeave = function () {
             _this.currentAnnotationState.onMouseLeave();
         };
+        _this.zoomIn = function () {
+            var prevScale = _this.scaleState.scale;
+            _this.scaleState.scale =
+                _this.scaleState.scale > 10 ? 10 : _this.scaleState.scale + 0.1;
+            if (_this.currentImageElement) {
+                // this.scaleState.originX = this.imageCanvasRef.current.width / 2;
+                var offsetX = _this.currentImageElement.width / 2;
+                var offsetY = _this.currentImageElement.height / 2;
+                var _a = _this.scaleState, currentScale = _a.scale, originX = _a.originX, originY = _a.originY;
+                _this.scaleState.originX =
+                    offsetX - ((offsetX - originX) / prevScale) * currentScale;
+                _this.scaleState.originY =
+                    offsetY - ((offsetY - originY) / prevScale) * currentScale;
+            }
+            _this.setState({ imageScale: _this.scaleState });
+            requestAnimationFrame(function () {
+                _this.onShapeChange();
+                _this.onImageChange();
+            });
+        };
+        _this.zoomOut = function () {
+            var prevScale = _this.scaleState.scale;
+            _this.scaleState.scale =
+                _this.scaleState.scale < 0.1 ? 0.1 : _this.scaleState.scale - 0.1;
+            if (_this.currentImageElement) {
+                // this.scaleState.originX = this.imageCanvasRef.current.width / 2;
+                var offsetX = _this.currentImageElement.width / 2;
+                var offsetY = _this.currentImageElement.height / 2;
+                var _a = _this.scaleState, currentScale = _a.scale, originX = _a.originX, originY = _a.originY;
+                _this.scaleState.originX =
+                    offsetX - ((offsetX - originX) / prevScale) * currentScale;
+                _this.scaleState.originY =
+                    offsetY - ((offsetY - originY) / prevScale) * currentScale;
+            }
+            _this.setState({ imageScale: _this.scaleState });
+            requestAnimationFrame(function () {
+                _this.onShapeChange();
+                _this.onImageChange();
+            });
+        };
+        _this.zoomReset = function () {
+            _this.scaleState.scale = 1;
+            _this.scaleState.originX = 0;
+            _this.scaleState.originY = 0;
+            _this.setState({ imageScale: _this.scaleState });
+            requestAnimationFrame(function () {
+                _this.onShapeChange();
+                _this.onImageChange();
+            });
+        };
         _this.onWheel = function (event) {
             // https://stackoverflow.com/a/31133823/9071503
             var _a = event.currentTarget, clientHeight = _a.clientHeight, scrollTop = _a.scrollTop, scrollHeight = _a.scrollHeight;
@@ -295,6 +345,7 @@ var ReactPictureAnnotation = /** @class */ (function (_super) {
             }
             var _b = _this.scaleState, originX = _b.originX, originY = _b.originY, scale = _b.scale;
             var _c = event.nativeEvent, offsetX = _c.offsetX, offsetY = _c.offsetY;
+            console.log('offsetX / originX:', offsetX, originX);
             _this.scaleState.originX =
                 offsetX - ((offsetX - originX) / preScale) * scale;
             _this.scaleState.originY =
