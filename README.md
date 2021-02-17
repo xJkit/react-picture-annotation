@@ -70,6 +70,7 @@ ReactDOM.render(<App />, rootElement);
 | selectedId      | `string or null`                                                                                | Selected markId                            | X        |
 | scrollSpeed     | `number`                                                                                        | Speed of wheel zoom, default 0.0005        | X        |
 | marginWithInput | `number`                                                                                        | Margin between input and mark, default 1   | X        |
+| toolState       | `string`                                                                                        | Enum: normal or drag, defaults to normal   | X        |
 
 ## IShapeStyle
 
