@@ -1,20 +1,20 @@
-import { withA11y } from "@storybook/addon-a11y";
-import { addDecorator, storiesOf } from "@storybook/react";
-import React, { useEffect, useState } from "react";
+import { withA11y } from '@storybook/addon-a11y';
+import { addDecorator, storiesOf } from '@storybook/react';
+import React, { useEffect, useState, useCallback } from 'react';
 
 import {
   DefaultInputSection,
   defaultShapeStyle,
   ReactPictureAnnotation,
-} from "../src";
-import { IAnnotation } from "../src/Annotation";
-import { IShapeData } from "../src/Shape";
+} from '../src';
+import { IAnnotation, ToolState } from '../src/Annotation';
+import { IShapeData } from '../src/Shape';
 
 addDecorator((storyFn) => <div>{storyFn()}</div>);
 
-storiesOf("Hello World", module)
+storiesOf('Hello World', module)
   .addDecorator(withA11y)
-  .add("with text", () => {
+  .add('with text', () => {
     const AnnotationComponent = () => {
       const [size, setSize] = useState({
         width: window.innerWidth - 16,
@@ -25,10 +25,10 @@ storiesOf("Hello World", module)
         IAnnotation<IShapeData>[]
       >([
         {
-          id: "a",
-          comment: "HA HA HA",
+          id: 'a',
+          comment: 'HA HA HA',
           mark: {
-            type: "RECT",
+            type: 'RECT',
             width: 161,
             height: 165,
             x: 229,
@@ -37,7 +37,8 @@ storiesOf("Hello World", module)
         },
       ]);
 
-      const [selectedId, setSelectedId] = useState<string | null>("a");
+      const [selectedId, setSelectedId] = useState<string | null>('a');
+      const [toolState, setToolState] = useState('normal');
 
       const onResize = () => {
         setSize({
@@ -46,34 +47,60 @@ storiesOf("Hello World", module)
         });
       };
 
+      const onChangeToolState = useCallback(
+        (e) => setToolState(e.target.name),
+        [setToolState]
+      );
+
       useEffect(() => {
-        window.addEventListener("resize", onResize);
+        window.addEventListener('resize', onResize);
         return () => {
-          window.removeEventListener("resize", onResize);
+          window.removeEventListener('resize', onResize);
         };
       }, []);
 
       return (
-        <ReactPictureAnnotation
-          width={size.width}
-          height={size.height}
-          annotationData={annotationData}
-          onChange={(data) => setAnnotationData(data)}
-          selectedId={selectedId}
-          onSelect={(e) => setSelectedId(e)}
-          annotationStyle={{
-            ...defaultShapeStyle,
-            shapeStrokeStyle: "#2193ff",
-            transformerBackground: "black",
-          }}
-          image="https://bequank.oss-cn-beijing.aliyuncs.com/landpage/large/60682895_p0_master1200.jpg"
-          inputElement={(value, onChange, onDelete) => (
-            <DefaultInputSection
-              placeholder={"Hello world"}
-              {...{ value, onChange, onDelete }}
+        <>
+          <label style={{ marginRight: 16 }}>
+            <input
+              type="radio"
+              name={ToolState.Normal}
+              checked={toolState === ToolState.Normal}
+              onChange={onChangeToolState}
             />
-          )}
-        />
+            <span>Normal</span>
+          </label>
+          <label>
+            <input
+              type="radio"
+              name={ToolState.Drag}
+              checked={toolState === ToolState.Drag}
+              onChange={onChangeToolState}
+            />
+            <span>Drag</span>
+          </label>
+          <ReactPictureAnnotation
+            width={size.width}
+            height={size.height}
+            toolState={toolState}
+            annotationData={annotationData}
+            onChange={(data) => setAnnotationData(data)}
+            selectedId={selectedId}
+            onSelect={(e) => setSelectedId(e)}
+            annotationStyle={{
+              ...defaultShapeStyle,
+              shapeStrokeStyle: '#2193ff',
+              transformerBackground: 'black',
+            }}
+            image="https://bequank.oss-cn-beijing.aliyuncs.com/landpage/large/60682895_p0_master1200.jpg"
+            inputElement={(value, onChange, onDelete) => (
+              <DefaultInputSection
+                placeholder={'Hello world'}
+                {...{ value, onChange, onDelete }}
+              />
+            )}
+          />
+        </>
       );
     };
 

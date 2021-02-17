@@ -11,12 +11,13 @@ var __extends = (this && this.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
-import React from "react";
-import { DefaultAnnotationState } from "./annotation/DefaultAnnotationState";
-import DefaultInputSection from "./DefaultInputSection";
+import React from 'react';
+import { ToolState } from './Annotation';
+import { DefaultAnnotationState } from './annotation/DefaultAnnotationState';
+import DefaultInputSection from './DefaultInputSection';
 // import DeleteButton from "./DeleteButton";
-import { defaultShapeStyle, RectShape, } from "./Shape";
-import Transformer from "./Transformer";
+import { defaultShapeStyle, RectShape, } from './Shape';
+import Transformer from './Transformer';
 var defaultState = {
     scale: 1,
     originX: 0,
@@ -32,7 +33,7 @@ var ReactPictureAnnotation = /** @class */ (function (_super) {
                 top: 0,
             },
             showInput: false,
-            inputComment: "",
+            inputComment: '',
         };
         _this.shapes = [];
         _this.scaleState = defaultState;
@@ -45,8 +46,8 @@ var ReactPictureAnnotation = /** @class */ (function (_super) {
             var currentImageCanvas = _this.imageCanvasRef.current;
             if (currentCanvas && currentImageCanvas) {
                 _this.setCanvasDPI();
-                _this.canvas2D = currentCanvas.getContext("2d");
-                _this.imageCanvas2D = currentImageCanvas.getContext("2d");
+                _this.canvas2D = currentCanvas.getContext('2d');
+                _this.imageCanvas2D = currentImageCanvas.getContext('2d');
                 _this.onImageChange();
             }
             _this.syncAnnotationData();
@@ -92,6 +93,7 @@ var ReactPictureAnnotation = /** @class */ (function (_super) {
             _this.currentAnnotationState = annotationState;
         };
         _this.onShapeChange = function () {
+            // 新增框框
             if (_this.canvas2D && _this.canvasRef.current) {
                 _this.canvas2D.clearRect(0, 0, _this.canvasRef.current.width, _this.canvasRef.current.height);
                 var hasSelectedItem = false;
@@ -111,14 +113,14 @@ var ReactPictureAnnotation = /** @class */ (function (_super) {
                                 left: x,
                                 top: y + height + _this.props.marginWithInput,
                             },
-                            inputComment: item.getAnnotationData().comment || "",
+                            inputComment: item.getAnnotationData().comment || '',
                         });
                     }
                 }
                 if (!hasSelectedItem) {
                     _this.setState({
                         showInput: false,
-                        inputComment: "",
+                        inputComment: '',
                     });
                 }
             }
@@ -179,8 +181,8 @@ var ReactPictureAnnotation = /** @class */ (function (_super) {
             var currentCanvas = _this.canvasRef.current;
             var currentImageCanvas = _this.imageCanvasRef.current;
             if (currentCanvas && currentImageCanvas) {
-                var currentCanvas2D = currentCanvas.getContext("2d");
-                var currentImageCanvas2D = currentImageCanvas.getContext("2d");
+                var currentCanvas2D = currentCanvas.getContext('2d');
+                var currentImageCanvas2D = currentImageCanvas.getContext('2d');
                 if (currentCanvas2D && currentImageCanvas2D) {
                     currentCanvas2D.scale(2, 2);
                     currentImageCanvas2D.scale(2, 2);
@@ -205,8 +207,8 @@ var ReactPictureAnnotation = /** @class */ (function (_super) {
                     _this.imageCanvas2D.drawImage(_this.currentImageElement, originX, originY, _this.currentImageElement.width * scale, _this.currentImageElement.height * scale);
                 }
                 else {
-                    var nextImageNode_1 = document.createElement("img");
-                    nextImageNode_1.addEventListener("load", function () {
+                    var nextImageNode_1 = document.createElement('img');
+                    nextImageNode_1.addEventListener('load', function () {
                         _this.currentImageElement = nextImageNode_1;
                         var width = nextImageNode_1.width, height = nextImageNode_1.height;
                         var imageNodeRatio = height / width;
@@ -233,8 +235,26 @@ var ReactPictureAnnotation = /** @class */ (function (_super) {
                         _this.onImageChange();
                         _this.onShapeChange();
                     });
-                    nextImageNode_1.alt = "";
+                    nextImageNode_1.alt = '';
                     nextImageNode_1.src = _this.props.image;
+                }
+            }
+        };
+        _this.onImageMove = function (dX, dY) {
+            if (dX === void 0) { dX = 0; }
+            if (dY === void 0) { dY = 0; }
+            _this.cleanImage();
+            if (_this.imageCanvas2D && _this.imageCanvasRef.current) {
+                if (_this.currentImageElement) {
+                    var _a = _this.scaleState, originX = _a.originX, originY = _a.originY, scale = _a.scale;
+                    _this.scaleState.originX = _this.scaleState.originX + dX;
+                    _this.scaleState.originY = _this.scaleState.originY + dY;
+                    _this.imageCanvas2D.drawImage(_this.currentImageElement, originX, originY, _this.currentImageElement.width * scale, _this.currentImageElement.height * scale);
+                    // this.setState({ imageScale: this.scaleState });
+                    requestAnimationFrame(function () {
+                        _this.onShapeChange();
+                        // this.onImageMove();
+                    });
                 }
             }
         };
@@ -317,6 +337,7 @@ var ReactPictureAnnotation = /** @class */ (function (_super) {
     ReactPictureAnnotation.defaultProps = {
         marginWithInput: 10,
         scrollSpeed: 0.0005,
+        toolState: ToolState.Normal,
         annotationStyle: defaultShapeStyle,
         inputElement: function (value, onChange, onDelete) { return (React.createElement(DefaultInputSection, { value: value, onChange: onChange, onDelete: onDelete })); },
     };

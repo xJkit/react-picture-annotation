@@ -1,8 +1,8 @@
-import React from "react";
-import { IAnnotation } from "./Annotation";
-import { IAnnotationState } from "./annotation/AnnotationState";
-import { IShape, IShapeBase, IShapeStyle } from "./Shape";
-import { ITransformer } from "./Transformer";
+import React from 'react';
+import { IAnnotation, ToolState } from './Annotation';
+import { IAnnotationState } from './annotation/AnnotationState';
+import { IShape, IShapeBase, IShapeStyle } from './Shape';
+import { ITransformer } from './Transformer';
 interface IReactPictureAnnotationProps {
     annotationData?: IAnnotation[];
     selectedId?: string | null;
@@ -14,6 +14,7 @@ interface IReactPictureAnnotationProps {
     height: number;
     image: string;
     annotationStyle: IShapeStyle;
+    toolState: string;
     inputElement: (value: string, onChange: (value: string) => void, onDelete: () => void) => React.ReactElement;
 }
 interface IStageState {
@@ -25,6 +26,7 @@ export default class ReactPictureAnnotation extends React.Component<IReactPictur
     static defaultProps: {
         marginWithInput: number;
         scrollSpeed: number;
+        toolState: ToolState;
         annotationStyle: IShapeStyle;
         inputElement: (value: string, onChange: (value: string) => void, onDelete: () => void) => JSX.Element;
     };
@@ -67,6 +69,7 @@ export default class ReactPictureAnnotation extends React.Component<IReactPictur
     private onInputCommentChange;
     private cleanImage;
     private onImageChange;
+    onImageMove: (dX?: number, dY?: number) => void;
     private onMouseDown;
     private onMouseMove;
     private onMouseUp;

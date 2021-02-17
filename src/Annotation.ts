@@ -6,3 +6,8 @@ export interface IAnnotation<T = IShapeData> {
   id: string;
   mark: T;
 }
+
+export enum ToolState {
+  Normal = 'normal',
+  Drag = 'drag',
+}

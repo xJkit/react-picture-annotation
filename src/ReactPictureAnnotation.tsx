@@ -1,8 +1,8 @@
-import React, { MouseEventHandler } from "react";
-import { IAnnotation } from "./Annotation";
-import { IAnnotationState } from "./annotation/AnnotationState";
-import { DefaultAnnotationState } from "./annotation/DefaultAnnotationState";
-import DefaultInputSection from "./DefaultInputSection";
+import React, { MouseEventHandler } from 'react';
+import { IAnnotation, ToolState } from './Annotation';
+import { IAnnotationState } from './annotation/AnnotationState';
+import { DefaultAnnotationState } from './annotation/DefaultAnnotationState';
+import DefaultInputSection from './DefaultInputSection';
 // import DeleteButton from "./DeleteButton";
 import {
   defaultShapeStyle,
@@ -10,8 +10,8 @@ import {
   IShapeBase,
   IShapeStyle,
   RectShape,
-} from "./Shape";
-import Transformer, { ITransformer } from "./Transformer";
+} from './Shape';
+import Transformer, { ITransformer } from './Transformer';
 
 interface IReactPictureAnnotationProps {
   annotationData?: IAnnotation[];
@@ -24,6 +24,7 @@ interface IReactPictureAnnotationProps {
   height: number;
   image: string;
   annotationStyle: IShapeStyle;
+  toolState: string;
   inputElement: (
     value: string,
     onChange: (value: string) => void,
@@ -49,6 +50,7 @@ export default class ReactPictureAnnotation extends React.Component<
   public static defaultProps = {
     marginWithInput: 10,
     scrollSpeed: 0.0005,
+    toolState: ToolState.Normal,
     annotationStyle: defaultShapeStyle,
     inputElement: (
       value: string,
@@ -69,7 +71,7 @@ export default class ReactPictureAnnotation extends React.Component<
       top: 0,
     },
     showInput: false,
-    inputComment: "",
+    inputComment: '',
   };
 
   set selectedId(value: string | null) {
@@ -106,8 +108,8 @@ export default class ReactPictureAnnotation extends React.Component<
     if (currentCanvas && currentImageCanvas) {
       this.setCanvasDPI();
 
-      this.canvas2D = currentCanvas.getContext("2d");
-      this.imageCanvas2D = currentImageCanvas.getContext("2d");
+      this.canvas2D = currentCanvas.getContext('2d');
+      this.imageCanvas2D = currentImageCanvas.getContext('2d');
       this.onImageChange();
     }
 
@@ -196,6 +198,7 @@ export default class ReactPictureAnnotation extends React.Component<
   };
 
   public onShapeChange = () => {
+    // 新增框框
     if (this.canvas2D && this.canvasRef.current) {
       this.canvas2D.clearRect(
         0,
@@ -236,7 +239,7 @@ export default class ReactPictureAnnotation extends React.Component<
               left: x,
               top: y + height + this.props.marginWithInput,
             },
-            inputComment: item.getAnnotationData().comment || "",
+            inputComment: item.getAnnotationData().comment || '',
           });
         }
       }
@@ -244,7 +247,7 @@ export default class ReactPictureAnnotation extends React.Component<
       if (!hasSelectedItem) {
         this.setState({
           showInput: false,
-          inputComment: "",
+          inputComment: '',
         });
       }
     }
@@ -313,8 +316,8 @@ export default class ReactPictureAnnotation extends React.Component<
     const currentCanvas = this.canvasRef.current;
     const currentImageCanvas = this.imageCanvasRef.current;
     if (currentCanvas && currentImageCanvas) {
-      const currentCanvas2D = currentCanvas.getContext("2d");
-      const currentImageCanvas2D = currentImageCanvas.getContext("2d");
+      const currentCanvas2D = currentCanvas.getContext('2d');
+      const currentImageCanvas2D = currentImageCanvas.getContext('2d');
       if (currentCanvas2D && currentImageCanvas2D) {
         currentCanvas2D.scale(2, 2);
         currentImageCanvas2D.scale(2, 2);
@@ -354,8 +357,8 @@ export default class ReactPictureAnnotation extends React.Component<
           this.currentImageElement.height * scale
         );
       } else {
-        const nextImageNode = document.createElement("img");
-        nextImageNode.addEventListener("load", () => {
+        const nextImageNode = document.createElement('img');
+        nextImageNode.addEventListener('load', () => {
           this.currentImageElement = nextImageNode;
           const { width, height } = nextImageNode;
           const imageNodeRatio = height / width;
@@ -381,8 +384,32 @@ export default class ReactPictureAnnotation extends React.Component<
           this.onImageChange();
           this.onShapeChange();
         });
-        nextImageNode.alt = "";
+        nextImageNode.alt = '';
         nextImageNode.src = this.props.image;
+      }
+    }
+  };
+
+  public onImageMove = (dX: number = 0, dY: number = 0) => {
+    this.cleanImage();
+    if (this.imageCanvas2D && this.imageCanvasRef.current) {
+      if (this.currentImageElement) {
+        const { originX, originY, scale } = this.scaleState;
+        this.scaleState.originX = this.scaleState.originX + dX;
+        this.scaleState.originY = this.scaleState.originY + dY;
+        this.imageCanvas2D.drawImage(
+          this.currentImageElement,
+          originX,
+          originY,
+          this.currentImageElement.width * scale,
+          this.currentImageElement.height * scale
+        );
+
+        // this.setState({ imageScale: this.scaleState });
+        requestAnimationFrame(() => {
+          this.onShapeChange();
+          // this.onImageMove();
+        });
       }
     }
   };

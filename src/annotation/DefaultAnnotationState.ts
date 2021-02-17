@@ -2,10 +2,12 @@ import ReactPictureAnnotation from "../ReactPictureAnnotation";
 import { RectShape } from "../Shape";
 import Transformer from "../Transformer";
 import randomId from "../utils/randomId";
+import { ToolState } from '../Annotation';
 import { IAnnotationState } from "./AnnotationState";
 import CreatingAnnotationState from "./CreatingAnnotationState";
 import DraggingAnnotationState from "./DraggingAnnotationState";
 import TransformationState from "./TransfromationState";
+import MoveCanvasState from './MoveCanvasState';
 
 export class DefaultAnnotationState implements IAnnotationState {
   private readonly context: ReactPictureAnnotation;
@@ -23,8 +25,10 @@ export class DefaultAnnotationState implements IAnnotationState {
       currentTransformer,
       onShapeChange,
       setAnnotationState: setState,
+      props,
     } = this.context;
 
+    // 點選框變形
     if (
       currentTransformer &&
       currentTransformer.checkBoundary(positionX, positionY)
@@ -36,6 +40,7 @@ export class DefaultAnnotationState implements IAnnotationState {
 
     for (let i = shapes.length - 1; i >= 0; i--) {
       if (shapes[i].checkBoundary(positionX, positionY)) {
+        // 移動圈選框
         this.context.selectedId = shapes[i].getAnnotationData().id;
         this.context.currentTransformer = new Transformer(
           shapes[i],
@@ -49,6 +54,14 @@ export class DefaultAnnotationState implements IAnnotationState {
         return;
       }
     }
+
+    // [NEW] 移動 Canvas
+    if (props.toolState === ToolState.Drag) {
+      setState(new MoveCanvasState(this.context, positionX, positionY));
+      return;
+    }
+
+    // 新增框框
     this.context.shapes.push(
       new RectShape(
         {
@@ -65,7 +78,6 @@ export class DefaultAnnotationState implements IAnnotationState {
         this.context.annotationStyle
       )
     );
-
     setState(new CreatingAnnotationState(this.context));
   };
 }
