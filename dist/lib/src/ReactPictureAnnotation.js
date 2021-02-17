@@ -23,6 +23,11 @@ var defaultState = {
     originX: 0,
     originY: 0,
 };
+var initialScaleState = {
+    initialScale: 1,
+    initialX: 0,
+    initialY: 0,
+};
 var ReactPictureAnnotation = /** @class */ (function (_super) {
     __extends(ReactPictureAnnotation, _super);
     function ReactPictureAnnotation() {
@@ -37,6 +42,7 @@ var ReactPictureAnnotation = /** @class */ (function (_super) {
         };
         _this.shapes = [];
         _this.scaleState = defaultState;
+        _this.initialScaleState = initialScaleState;
         _this.currentAnnotationData = [];
         _this.canvasRef = React.createRef();
         _this.imageCanvasRef = React.createRef();
@@ -231,6 +237,9 @@ var ReactPictureAnnotation = /** @class */ (function (_super) {
                                     scale: scale,
                                 };
                             }
+                            // cache to initial values
+                            var _b = _this.scaleState, initialScale = _b.scale, initialX = _b.originX, initialY = _b.originY;
+                            _this.initialScaleState = { initialScale: initialScale, initialX: initialX, initialY: initialY };
                         }
                         _this.onImageChange();
                         _this.onShapeChange();
@@ -315,9 +324,9 @@ var ReactPictureAnnotation = /** @class */ (function (_super) {
             });
         };
         _this.zoomReset = function () {
-            _this.scaleState.scale = 1;
-            _this.scaleState.originX = 0;
-            _this.scaleState.originY = 0;
+            _this.scaleState.scale = _this.initialScaleState.initialScale;
+            _this.scaleState.originX = _this.initialScaleState.initialX;
+            _this.scaleState.originY = _this.initialScaleState.initialY;
             _this.setState({ imageScale: _this.scaleState });
             requestAnimationFrame(function () {
                 _this.onShapeChange();

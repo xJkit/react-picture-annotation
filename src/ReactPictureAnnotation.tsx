@@ -38,10 +38,22 @@ interface IStageState {
   originY: number;
 }
 
+interface IInitialStageState {
+  initialScale: number;
+  initialX: number;
+  initialY: number;
+}
+
 const defaultState: IStageState = {
   scale: 1,
   originX: 0,
   originY: 0,
+};
+
+const initialScaleState: IInitialStageState = {
+  initialScale: 1,
+  initialX: 0,
+  initialY: 0,
 };
 
 export default class ReactPictureAnnotation extends React.Component<
@@ -89,6 +101,7 @@ export default class ReactPictureAnnotation extends React.Component<
   }
   public shapes: IShape[] = [];
   public scaleState = defaultState;
+  public initialScaleState = initialScaleState;
   public currentTransformer: ITransformer;
 
   private currentAnnotationData: IAnnotation[] = [];
@@ -380,6 +393,14 @@ export default class ReactPictureAnnotation extends React.Component<
                 scale,
               };
             }
+
+            // cache to initial values
+            const {
+              scale: initialScale,
+              originX: initialX,
+              originY: initialY,
+            } = this.scaleState;
+            this.initialScaleState = { initialScale, initialX, initialY };
           }
           this.onImageChange();
           this.onShapeChange();
@@ -489,9 +510,10 @@ export default class ReactPictureAnnotation extends React.Component<
   };
 
   public zoomReset = () => {
-    this.scaleState.scale = 1;
-    this.scaleState.originX = 0;
-    this.scaleState.originY = 0;
+    this.scaleState.scale = this.initialScaleState.initialScale;
+    this.scaleState.originX = this.initialScaleState.initialX;
+    this.scaleState.originY = this.initialScaleState.initialY;
+
     this.setState({ imageScale: this.scaleState });
     requestAnimationFrame(() => {
       this.onShapeChange();

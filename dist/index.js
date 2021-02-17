@@ -861,6 +861,11 @@
     originX: 0,
     originY: 0
   };
+  var initialScaleState = {
+    initialScale: 1,
+    initialX: 0,
+    initialY: 0
+  };
 
   var ReactPictureAnnotation = /*#__PURE__*/function (_React$Component) {
     _inherits(ReactPictureAnnotation, _React$Component);
@@ -887,6 +892,7 @@
       };
       _this.shapes = [];
       _this.scaleState = defaultState;
+      _this.initialScaleState = initialScaleState;
       _this.currentTransformer = void 0;
       _this.currentAnnotationData = [];
       _this.selectedIdTrueValue = void 0;
@@ -1182,7 +1188,18 @@
                     originY: 0,
                     scale: _scale2
                   };
-                }
+                } // cache to initial values
+
+
+                var _this$scaleState4 = _this.scaleState,
+                    initialScale = _this$scaleState4.scale,
+                    initialX = _this$scaleState4.originX,
+                    initialY = _this$scaleState4.originY;
+                _this.initialScaleState = {
+                  initialScale: initialScale,
+                  initialX: initialX,
+                  initialY: initialY
+                };
               }
 
               _this.onImageChange();
@@ -1203,10 +1220,10 @@
 
         if (_this.imageCanvas2D && _this.imageCanvasRef.current) {
           if (_this.currentImageElement) {
-            var _this$scaleState4 = _this.scaleState,
-                originX = _this$scaleState4.originX,
-                originY = _this$scaleState4.originY,
-                scale = _this$scaleState4.scale;
+            var _this$scaleState5 = _this.scaleState,
+                originX = _this$scaleState5.originX,
+                originY = _this$scaleState5.originY,
+                scale = _this$scaleState5.scale;
             _this.scaleState.originX = _this.scaleState.originX + dX;
             _this.scaleState.originY = _this.scaleState.originY + dY;
 
@@ -1261,10 +1278,10 @@
           // this.scaleState.originX = this.imageCanvasRef.current.width / 2;
           var offsetX = _this.currentImageElement.width / 2;
           var offsetY = _this.currentImageElement.height / 2;
-          var _this$scaleState5 = _this.scaleState,
-              currentScale = _this$scaleState5.scale,
-              originX = _this$scaleState5.originX,
-              originY = _this$scaleState5.originY;
+          var _this$scaleState6 = _this.scaleState,
+              currentScale = _this$scaleState6.scale,
+              originX = _this$scaleState6.originX,
+              originY = _this$scaleState6.originY;
           _this.scaleState.originX = offsetX - (offsetX - originX) / prevScale * currentScale;
           _this.scaleState.originY = offsetY - (offsetY - originY) / prevScale * currentScale;
         }
@@ -1288,10 +1305,10 @@
           // this.scaleState.originX = this.imageCanvasRef.current.width / 2;
           var offsetX = _this.currentImageElement.width / 2;
           var offsetY = _this.currentImageElement.height / 2;
-          var _this$scaleState6 = _this.scaleState,
-              currentScale = _this$scaleState6.scale,
-              originX = _this$scaleState6.originX,
-              originY = _this$scaleState6.originY;
+          var _this$scaleState7 = _this.scaleState,
+              currentScale = _this$scaleState7.scale,
+              originX = _this$scaleState7.originX,
+              originY = _this$scaleState7.originY;
           _this.scaleState.originX = offsetX - (offsetX - originX) / prevScale * currentScale;
           _this.scaleState.originY = offsetY - (offsetY - originY) / prevScale * currentScale;
         }
@@ -1308,9 +1325,9 @@
       };
 
       _this.zoomReset = function () {
-        _this.scaleState.scale = 1;
-        _this.scaleState.originX = 0;
-        _this.scaleState.originY = 0;
+        _this.scaleState.scale = _this.initialScaleState.initialScale;
+        _this.scaleState.originX = _this.initialScaleState.initialX;
+        _this.scaleState.originY = _this.initialScaleState.initialY;
 
         _this.setState({
           imageScale: _this.scaleState
@@ -1349,10 +1366,10 @@
           _this.scaleState.scale = 0.1;
         }
 
-        var _this$scaleState7 = _this.scaleState,
-            originX = _this$scaleState7.originX,
-            originY = _this$scaleState7.originY,
-            scale = _this$scaleState7.scale;
+        var _this$scaleState8 = _this.scaleState,
+            originX = _this$scaleState8.originX,
+            originY = _this$scaleState8.originY,
+            scale = _this$scaleState8.scale;
         var _event$nativeEvent3 = event.nativeEvent,
             offsetX = _event$nativeEvent3.offsetX,
             offsetY = _event$nativeEvent3.offsetY;

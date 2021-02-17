@@ -22,6 +22,11 @@ interface IStageState {
     originX: number;
     originY: number;
 }
+interface IInitialStageState {
+    initialScale: number;
+    initialX: number;
+    initialY: number;
+}
 export default class ReactPictureAnnotation extends React.Component<IReactPictureAnnotationProps> {
     static defaultProps: {
         marginWithInput: number;
@@ -43,6 +48,7 @@ export default class ReactPictureAnnotation extends React.Component<IReactPictur
     get annotationStyle(): IShapeStyle;
     shapes: IShape[];
     scaleState: IStageState;
+    initialScaleState: IInitialStageState;
     currentTransformer: ITransformer;
     private currentAnnotationData;
     private selectedIdTrueValue;
