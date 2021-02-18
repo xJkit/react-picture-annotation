@@ -8,9 +8,10 @@ var DraggingAnnotationState = /** @class */ (function () {
             _this.context.onImageMove(positionX - _this.startX, positionY - _this.startY);
         };
         this.onMouseUp = function () {
-            var setAnnotationState = _this.context.setAnnotationState;
+            var _a = _this.context, setAnnotationState = _a.setAnnotationState, onShapeChange = _a.onShapeChange;
             document.body.style.cursor = 'default';
             setAnnotationState(new DefaultAnnotationState(_this.context));
+            onShapeChange();
         };
         this.onMouseLeave = function () { return _this.onMouseUp(); };
         this.context = context;

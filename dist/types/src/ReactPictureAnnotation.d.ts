@@ -15,6 +15,7 @@ interface IReactPictureAnnotationProps {
     image: string;
     annotationStyle: IShapeStyle;
     toolState: string;
+    isDraggingTextBox: boolean;
     inputElement: (value: string, onChange: (value: string) => void, onDelete: () => void) => React.ReactElement;
 }
 interface IStageState {
@@ -32,6 +33,7 @@ export default class ReactPictureAnnotation extends React.Component<IReactPictur
         marginWithInput: number;
         scrollSpeed: number;
         toolState: ToolState;
+        isDraggingTextBox: boolean;
         annotationStyle: IShapeStyle;
         inputElement: (value: string, onChange: (value: string) => void, onDelete: () => void) => JSX.Element;
     };
@@ -76,6 +78,7 @@ export default class ReactPictureAnnotation extends React.Component<IReactPictur
     private cleanImage;
     private onImageChange;
     onImageMove: (dX?: number, dY?: number) => void;
+    private dragImage;
     private onMouseDown;
     private onMouseMove;
     private onMouseUp;

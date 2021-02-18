@@ -57,20 +57,21 @@ ReactDOM.render(<App />, rootElement);
 
 ## ReactPictureAnnotation Props
 
-| Name            | Type                                                                                            | Comment                                    | required |
-| --------------- | ----------------------------------------------------------------------------------------------- | ------------------------------------------ | -------- |
-| onChange        | `(annotationData: IAnnotation[]) => void`                                                       | Called every time the shape changes.       | √        |
-| onSelected      | `(id: string or null) => void`                                                                  | Called each time the selection is changed. | √        |
-| width           | `number`                                                                                        | Width of the canvas.                       | √        |
-| height          | `number`                                                                                        | Height of the canvas.                      | √        |
-| image           | `string`                                                                                        | Image to be annotated.                     | √        |
-| inputElement    | `(value: string,onChange: (value: string) => void,onDelete: () => void) => React.ReactElement;` | Customizable input control.                | X        |
-| annotationData  | `Array<IAnnotation>`                                                                            | Control the marked areas on the page.      | X        |
-| annotationStyle | `IShapeStyle`                                                                                   | Control the mark style                     | X        |
-| selectedId      | `string or null`                                                                                | Selected markId                            | X        |
-| scrollSpeed     | `number`                                                                                        | Speed of wheel zoom, default 0.0005        | X        |
-| marginWithInput | `number`                                                                                        | Margin between input and mark, default 1   | X        |
-| toolState       | `string`                                                                                        | Enum: normal or drag, defaults to normal   | X        |
+| Name             | Type                                                                                            | Comment                                                         | required |
+| ---------------- | ----------------------------------------------------------------------------------------------- | --------------------------------------------------------------- | -------- |
+| onChange         | `(annotationData: IAnnotation[]) => void`                                                       | Called every time the shape changes.                            | √        |
+| onSelected       | `(id: string or null) => void`                                                                  | Called each time the selection is changed.                      | √        |
+| width            | `number`                                                                                        | Width of the canvas.                                            | √        |
+| height           | `number`                                                                                        | Height of the canvas.                                           | √        |
+| image            | `string`                                                                                        | Image to be annotated.                                          | √        |
+| inputElement     | `(value: string,onChange: (value: string) => void,onDelete: () => void) => React.ReactElement;` | Customizable input control.                                     | X        |
+| annotationData   | `Array<IAnnotation>`                                                                            | Control the marked areas on the page.                           | X        |
+| annotationStyle  | `IShapeStyle`                                                                                   | Control the mark style                                          | X        |
+| selectedId       | `string or null`                                                                                | Selected markId                                                 | X        |
+| scrollSpeed      | `number`                                                                                        | Speed of wheel zoom, default 0.0005                             | X        |
+| marginWithInput  | `number`                                                                                        | Margin between input and mark, default 1                        | X        |
+| toolState        | `string`                                                                                        | Enum: normal or drag, defaults to normal                        | X        |
+| isDraggingTextBox| `boolean`                                                                                       | Decide whether text box is following your drag. Default is true | X        |
 
 ## ReactPictureAnnotation Instance Method
 

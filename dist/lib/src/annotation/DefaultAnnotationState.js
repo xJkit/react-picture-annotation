@@ -36,6 +36,11 @@ var DefaultAnnotationState = /** @class */ (function () {
             }
             // [NEW] 移動 Canvas
             if (props.toolState === ToolState.Drag) {
+                // 如果框框被選，就取消點選
+                if (_this.context.selectedId) {
+                    _this.context.selectedId = null;
+                    onShapeChange();
+                }
                 setState(new MoveCanvasState(_this.context, positionX, positionY));
                 return;
             }

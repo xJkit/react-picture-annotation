@@ -40,6 +40,7 @@ storiesOf('Hello World', module)
       const componentRef = useRef<ReactPictureAnnotation>(null);
       const [selectedId, setSelectedId] = useState<string | null>('a');
       const [toolState, setToolState] = useState('normal');
+      const [isDragTextBox, setIsDragTextBox] = useState('1');
 
       const onResize = () => {
         setSize({
@@ -89,7 +90,7 @@ storiesOf('Hello World', module)
             />
             <span>Normal</span>
           </label>
-          <label>
+          <label style={{ marginRight: 16 }}>
             <input
               type="radio"
               name={ToolState.Drag}
@@ -98,14 +99,27 @@ storiesOf('Hello World', module)
             />
             <span>Drag</span>
           </label>
-          <button onClick={onZoomIn}>zoom in</button>
-          <button onClick={onZoomOut}>zoom out</button>
-          <button onClick={onZoomReset}>reset zoom</button>
+          <div style={{ display: 'inline-block', marginRight: 24 }}>
+            <button onClick={onZoomIn}>zoom in</button>
+            <button onClick={onZoomOut}>zoom out</button>
+            <button onClick={onZoomReset}>reset zoom</button>
+          </div>
+          <div style={{ display: 'inline-block' }}>
+            <span>Should Drag With Text Box? </span>
+            <select
+              value={isDragTextBox}
+              onChange={(e) => setIsDragTextBox(e.target.value)}
+            >
+              <option value="1">Yes</option>
+              <option value="0">No</option>
+            </select>
+          </div>
           <ReactPictureAnnotation
             ref={componentRef}
             width={size.width}
             height={size.height}
             toolState={toolState}
+            isDraggingTextBox={!!parseInt(isDragTextBox, 10)}
             annotationData={annotationData}
             onChange={(data) => setAnnotationData(data)}
             selectedId={selectedId}

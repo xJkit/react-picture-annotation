@@ -18,9 +18,10 @@ export default class DraggingAnnotationState implements IAnnotationState {
   };
 
   public onMouseUp = () => {
-    const { setAnnotationState } = this.context;
+    const { setAnnotationState, onShapeChange } = this.context;
     document.body.style.cursor = 'default';
     setAnnotationState(new DefaultAnnotationState(this.context));
+    onShapeChange()
   };
 
   public onMouseLeave = () => this.onMouseUp();

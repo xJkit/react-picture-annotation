@@ -25,6 +25,7 @@ interface IReactPictureAnnotationProps {
   image: string;
   annotationStyle: IShapeStyle;
   toolState: string;
+  isDraggingTextBox: boolean;
   inputElement: (
     value: string,
     onChange: (value: string) => void,
@@ -63,6 +64,7 @@ export default class ReactPictureAnnotation extends React.Component<
     marginWithInput: 10,
     scrollSpeed: 0.0005,
     toolState: ToolState.Normal,
+    isDraggingTextBox: true,
     annotationStyle: defaultShapeStyle,
     inputElement: (
       value: string,
@@ -427,11 +429,18 @@ export default class ReactPictureAnnotation extends React.Component<
         );
 
         // this.setState({ imageScale: this.scaleState });
-        requestAnimationFrame(() => {
-          this.onShapeChange();
-          // this.onImageMove();
-        });
+        requestAnimationFrame(this.dragImage);
       }
+    }
+  };
+
+  private dragImage = () => {
+    const { isDraggingTextBox } = this.props;
+    // 移動中 框框不會跟著移動：效能提升
+    if (isDraggingTextBox) {
+      this.onShapeChange();
+    } else {
+      this.onImageMove();
     }
   };
 

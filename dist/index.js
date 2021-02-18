@@ -726,9 +726,12 @@
     };
 
     this.onMouseUp = function () {
-      var setAnnotationState = _this.context.setAnnotationState;
+      var _this$context = _this.context,
+          setAnnotationState = _this$context.setAnnotationState,
+          onShapeChange = _this$context.onShapeChange;
       document.body.style.cursor = 'default';
       setAnnotationState(new DefaultAnnotationState(_this.context));
+      onShapeChange();
     };
 
     this.onMouseLeave = function () {
@@ -793,6 +796,12 @@
 
 
       if (props.toolState === ToolState.Drag) {
+        // 如果框框被選，就取消點選
+        if (_this.context.selectedId) {
+          _this.context.selectedId = null;
+          onShapeChange();
+        }
+
         setState(new DraggingAnnotationState$1(_this.context, positionX, positionY));
         return;
       } // 新增框框
@@ -1230,11 +1239,18 @@
             _this.imageCanvas2D.drawImage(_this.currentImageElement, originX, originY, _this.currentImageElement.width * scale, _this.currentImageElement.height * scale); // this.setState({ imageScale: this.scaleState });
 
 
-            requestAnimationFrame(function () {
-              _this.onShapeChange(); // this.onImageMove();
-
-            });
+            requestAnimationFrame(_this.dragImage);
           }
+        }
+      };
+
+      _this.dragImage = function () {
+        var isDraggingTextBox = _this.props.isDraggingTextBox; // 移動中 框框不會跟著移動：效能提升
+
+        if (isDraggingTextBox) {
+          _this.onShapeChange();
+        } else {
+          _this.onImageMove();
         }
       };
 
@@ -1455,6 +1471,7 @@
     marginWithInput: 10,
     scrollSpeed: 0.0005,
     toolState: ToolState.Normal,
+    isDraggingTextBox: true,
     annotationStyle: defaultShapeStyle,
     inputElement: function inputElement(value, onChange, onDelete) {
       return /*#__PURE__*/React.createElement(DefaultInputSection, {

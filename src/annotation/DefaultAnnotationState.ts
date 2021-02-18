@@ -57,6 +57,11 @@ export class DefaultAnnotationState implements IAnnotationState {
 
     // [NEW] 移動 Canvas
     if (props.toolState === ToolState.Drag) {
+      // 如果框框被選，就取消點選
+      if (this.context.selectedId) {
+        this.context.selectedId = null;
+        onShapeChange();
+      }
       setState(new MoveCanvasState(this.context, positionX, positionY));
       return;
     }
