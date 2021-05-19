@@ -1292,24 +1292,21 @@
       };
 
       _this.zoomIn = function () {
-        var currentCanvas = _this.canvasRef.current;
-        var prevScale = _this.scaleState.scale;
+        var currentCanvas = _this.canvasRef.current; // const { scale: prevScale } = this.scaleState;
 
         if (_this.currentImageElement && currentCanvas) {
           // this.scaleState.originX = this.imageCanvasRef.current.width / 2;
-          var offsetX = currentCanvas.width / 2;
-          var offsetY = currentCanvas.height / 2;
-          /** 放大程度由圖片大小比例決定 */
+          // const offsetX = currentCanvas.width / 2;
+          // const offsetY = currentCanvas.height / 2;
 
+          /** 放大程度由圖片大小比例決定 */
           var zoomScale = _this.getZoomingScaleByImageDimension(_this.currentImageElement.width, _this.currentImageElement.height);
 
-          _this.scaleState.scale = _this.scaleState.scale > 10 ? 10 : _this.scaleState.scale + zoomScale;
-          var _this$scaleState6 = _this.scaleState,
-              currentScale = _this$scaleState6.scale,
-              originX = _this$scaleState6.originX,
-              originY = _this$scaleState6.originY;
-          _this.scaleState.originX = offsetX - (offsetX - originX) / prevScale * currentScale;
-          _this.scaleState.originY = offsetY - (offsetY - originY) / prevScale * currentScale;
+          _this.scaleState.scale = _this.scaleState.scale > 10 ? 10 : _this.scaleState.scale + zoomScale; // const { scale: currentScale, originX, originY } = this.scaleState;
+          // this.scaleState.originX =
+          //   offsetX - ((offsetX - originX) / prevScale) * currentScale;
+          // this.scaleState.originY =
+          //   offsetY - ((offsetY - originY) / prevScale) * currentScale;
         }
 
         _this.setState({
@@ -1324,24 +1321,21 @@
       };
 
       _this.zoomOut = function () {
-        var currentCanvas = _this.canvasRef.current;
-        var prevScale = _this.scaleState.scale;
+        var currentCanvas = _this.canvasRef.current; // const { scale: prevScale } = this.scaleState;
 
         if (_this.currentImageElement && currentCanvas) {
           // this.scaleState.originX = this.imageCanvasRef.current.width / 2;
-          var offsetX = currentCanvas.width / 2;
-          var offsetY = currentCanvas.height / 2;
-          /** 縮小程度由圖片大小比例決定 */
+          // const offsetX = currentCanvas.width / 2;
+          // const offsetY = currentCanvas.height / 2;
 
+          /** 縮小程度由圖片大小比例決定 */
           var zoomScale = _this.getZoomingScaleByImageDimension(_this.currentImageElement.width, _this.currentImageElement.height);
 
-          _this.scaleState.scale = _this.scaleState.scale < 0.1 ? 0.1 : _this.scaleState.scale - zoomScale;
-          var _this$scaleState7 = _this.scaleState,
-              currentScale = _this$scaleState7.scale,
-              originX = _this$scaleState7.originX,
-              originY = _this$scaleState7.originY;
-          _this.scaleState.originX = offsetX - (offsetX - originX) / prevScale * currentScale;
-          _this.scaleState.originY = offsetY - (offsetY - originY) / prevScale * currentScale;
+          _this.scaleState.scale = _this.scaleState.scale < 0.1 ? 0.1 : _this.scaleState.scale - zoomScale; // const { scale: currentScale, originX, originY } = this.scaleState;
+          // this.scaleState.originX =
+          //   offsetX - ((offsetX - originX) / prevScale) * currentScale;
+          // this.scaleState.originY =
+          //   offsetY - ((offsetY - originY) / prevScale) * currentScale;
         }
 
         _this.setState({
@@ -1403,10 +1397,10 @@
           _this.scaleState.scale = 0.1;
         }
 
-        var _this$scaleState8 = _this.scaleState,
-            originX = _this$scaleState8.originX,
-            originY = _this$scaleState8.originY,
-            scale = _this$scaleState8.scale;
+        var _this$scaleState6 = _this.scaleState,
+            originX = _this$scaleState6.originX,
+            originY = _this$scaleState6.originY,
+            scale = _this$scaleState6.scale;
         var _event$nativeEvent3 = event.nativeEvent,
             offsetX = _event$nativeEvent3.offsetX,
             offsetY = _event$nativeEvent3.offsetY;

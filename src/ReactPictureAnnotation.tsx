@@ -480,11 +480,11 @@ export default class ReactPictureAnnotation extends React.Component<
 
   public zoomIn = () => {
     const currentCanvas = this.canvasRef.current;
-    const { scale: prevScale } = this.scaleState;
+    // const { scale: prevScale } = this.scaleState;
     if (this.currentImageElement && currentCanvas) {
       // this.scaleState.originX = this.imageCanvasRef.current.width / 2;
-      const offsetX = currentCanvas.width / 2;
-      const offsetY = currentCanvas.height / 2;
+      // const offsetX = currentCanvas.width / 2;
+      // const offsetY = currentCanvas.height / 2;
 
       /** 放大程度由圖片大小比例決定 */
       const zoomScale = this.getZoomingScaleByImageDimension(
@@ -494,12 +494,11 @@ export default class ReactPictureAnnotation extends React.Component<
       this.scaleState.scale =
         this.scaleState.scale > 10 ? 10 : this.scaleState.scale + zoomScale;
 
-      const { scale: currentScale, originX, originY } = this.scaleState;
-
-      this.scaleState.originX =
-        offsetX - ((offsetX - originX) / prevScale) * currentScale;
-      this.scaleState.originY =
-        offsetY - ((offsetY - originY) / prevScale) * currentScale;
+      // const { scale: currentScale, originX, originY } = this.scaleState;
+      // this.scaleState.originX =
+      //   offsetX - ((offsetX - originX) / prevScale) * currentScale;
+      // this.scaleState.originY =
+      //   offsetY - ((offsetY - originY) / prevScale) * currentScale;
     }
     this.setState({ imageScale: this.scaleState });
 
@@ -511,11 +510,11 @@ export default class ReactPictureAnnotation extends React.Component<
 
   public zoomOut = () => {
     const currentCanvas = this.canvasRef.current;
-    const { scale: prevScale } = this.scaleState;
+    // const { scale: prevScale } = this.scaleState;
     if (this.currentImageElement && currentCanvas) {
       // this.scaleState.originX = this.imageCanvasRef.current.width / 2;
-      const offsetX = currentCanvas.width / 2;
-      const offsetY = currentCanvas.height / 2;
+      // const offsetX = currentCanvas.width / 2;
+      // const offsetY = currentCanvas.height / 2;
 
       /** 縮小程度由圖片大小比例決定 */
       const zoomScale = this.getZoomingScaleByImageDimension(
@@ -525,12 +524,12 @@ export default class ReactPictureAnnotation extends React.Component<
       this.scaleState.scale =
         this.scaleState.scale < 0.1 ? 0.1 : this.scaleState.scale - zoomScale;
 
-      const { scale: currentScale, originX, originY } = this.scaleState;
+      // const { scale: currentScale, originX, originY } = this.scaleState;
 
-      this.scaleState.originX =
-        offsetX - ((offsetX - originX) / prevScale) * currentScale;
-      this.scaleState.originY =
-        offsetY - ((offsetY - originY) / prevScale) * currentScale;
+      // this.scaleState.originX =
+      //   offsetX - ((offsetX - originX) / prevScale) * currentScale;
+      // this.scaleState.originY =
+      //   offsetY - ((offsetY - originY) / prevScale) * currentScale;
     }
     this.setState({ imageScale: this.scaleState });
 

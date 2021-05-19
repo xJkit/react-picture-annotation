@@ -298,20 +298,20 @@ var ReactPictureAnnotation = /** @class */ (function (_super) {
         };
         _this.zoomIn = function () {
             var currentCanvas = _this.canvasRef.current;
-            var prevScale = _this.scaleState.scale;
+            // const { scale: prevScale } = this.scaleState;
             if (_this.currentImageElement && currentCanvas) {
                 // this.scaleState.originX = this.imageCanvasRef.current.width / 2;
-                var offsetX = currentCanvas.width / 2;
-                var offsetY = currentCanvas.height / 2;
+                // const offsetX = currentCanvas.width / 2;
+                // const offsetY = currentCanvas.height / 2;
                 /** 放大程度由圖片大小比例決定 */
                 var zoomScale = _this.getZoomingScaleByImageDimension(_this.currentImageElement.width, _this.currentImageElement.height);
                 _this.scaleState.scale =
                     _this.scaleState.scale > 10 ? 10 : _this.scaleState.scale + zoomScale;
-                var _a = _this.scaleState, currentScale = _a.scale, originX = _a.originX, originY = _a.originY;
-                _this.scaleState.originX =
-                    offsetX - ((offsetX - originX) / prevScale) * currentScale;
-                _this.scaleState.originY =
-                    offsetY - ((offsetY - originY) / prevScale) * currentScale;
+                // const { scale: currentScale, originX, originY } = this.scaleState;
+                // this.scaleState.originX =
+                //   offsetX - ((offsetX - originX) / prevScale) * currentScale;
+                // this.scaleState.originY =
+                //   offsetY - ((offsetY - originY) / prevScale) * currentScale;
             }
             _this.setState({ imageScale: _this.scaleState });
             requestAnimationFrame(function () {
@@ -321,20 +321,20 @@ var ReactPictureAnnotation = /** @class */ (function (_super) {
         };
         _this.zoomOut = function () {
             var currentCanvas = _this.canvasRef.current;
-            var prevScale = _this.scaleState.scale;
+            // const { scale: prevScale } = this.scaleState;
             if (_this.currentImageElement && currentCanvas) {
                 // this.scaleState.originX = this.imageCanvasRef.current.width / 2;
-                var offsetX = currentCanvas.width / 2;
-                var offsetY = currentCanvas.height / 2;
+                // const offsetX = currentCanvas.width / 2;
+                // const offsetY = currentCanvas.height / 2;
                 /** 縮小程度由圖片大小比例決定 */
                 var zoomScale = _this.getZoomingScaleByImageDimension(_this.currentImageElement.width, _this.currentImageElement.height);
                 _this.scaleState.scale =
                     _this.scaleState.scale < 0.1 ? 0.1 : _this.scaleState.scale - zoomScale;
-                var _a = _this.scaleState, currentScale = _a.scale, originX = _a.originX, originY = _a.originY;
-                _this.scaleState.originX =
-                    offsetX - ((offsetX - originX) / prevScale) * currentScale;
-                _this.scaleState.originY =
-                    offsetY - ((offsetY - originY) / prevScale) * currentScale;
+                // const { scale: currentScale, originX, originY } = this.scaleState;
+                // this.scaleState.originX =
+                //   offsetX - ((offsetX - originX) / prevScale) * currentScale;
+                // this.scaleState.originY =
+                //   offsetY - ((offsetY - originY) / prevScale) * currentScale;
             }
             _this.setState({ imageScale: _this.scaleState });
             requestAnimationFrame(function () {
