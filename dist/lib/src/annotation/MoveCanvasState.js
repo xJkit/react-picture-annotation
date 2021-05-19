@@ -5,7 +5,10 @@ var DraggingAnnotationState = /** @class */ (function () {
         this.onMouseDown = function () { return undefined; };
         this.onMouseMove = function (positionX, positionY) {
             document.body.style.cursor = 'move';
-            _this.context.onImageMove(positionX - _this.startX, positionY - _this.startY);
+            var scale = _this.context.scaleState.scale;
+            var dX = (positionX - _this.startX) * scale;
+            var dY = (positionY - _this.startY) * scale;
+            _this.context.onImageMove(dX, dY);
         };
         this.onMouseUp = function () {
             var _a = _this.context, setAnnotationState = _a.setAnnotationState, onShapeChange = _a.onShapeChange;

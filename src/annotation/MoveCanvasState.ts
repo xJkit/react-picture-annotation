@@ -14,7 +14,10 @@ export default class DraggingAnnotationState implements IAnnotationState {
   public onMouseDown = () => undefined;
   public onMouseMove = (positionX: number, positionY: number) => {
     document.body.style.cursor = 'move';
-    this.context.onImageMove(positionX - this.startX, positionY - this.startY)
+    const scale = this.context.scaleState.scale;
+    const dX = (positionX - this.startX) * scale;
+    const dY = (positionY - this.startY) * scale;
+    this.context.onImageMove(dX, dY)
   };
 
   public onMouseUp = () => {

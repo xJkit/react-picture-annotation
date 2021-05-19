@@ -715,8 +715,11 @@ var DraggingAnnotationState$1 = function DraggingAnnotationState(context, _posit
 
   this.onMouseMove = function (positionX, positionY) {
     document.body.style.cursor = 'move';
+    var scale = _this.context.scaleState.scale;
+    var dX = (positionX - _this.startX) * scale;
+    var dY = (positionY - _this.startY) * scale;
 
-    _this.context.onImageMove(positionX - _this.startX, positionY - _this.startY);
+    _this.context.onImageMove(dX, dY);
   };
 
   this.onMouseUp = function () {
