@@ -129,7 +129,7 @@ storiesOf('Hello World', module)
               shapeStrokeStyle: '#2193ff',
               transformerBackground: 'black',
             }}
-            image="https://bequank.oss-cn-beijing.aliyuncs.com/landpage/large/60682895_p0_master1200.jpg"
+            image="https://source.unsplash.com/random/2000x4000"
             inputElement={(value, onChange, onDelete) => (
               <DefaultInputSection
                 placeholder={'Hello world'}

@@ -1182,19 +1182,19 @@
 
               if (!isNaN(imageNodeRatio) && !isNaN(canvasNodeRatio)) {
                 if (imageNodeRatio < canvasNodeRatio) {
-                  var _scale = canvasWidth / width;
+                  var _scale = canvasHeight / height;
 
                   _this.scaleState = {
-                    originX: 0,
-                    originY: (canvasHeight - _scale * height) / 2,
+                    originX: (canvasWidth - _scale * width) / 2,
+                    originY: 0,
                     scale: _scale
                   };
                 } else {
-                  var _scale2 = canvasHeight / height;
+                  var _scale2 = canvasWidth / width;
 
                   _this.scaleState = {
-                    originX: (canvasWidth - _scale2 * width) / 2,
-                    originY: 0,
+                    originX: 0,
+                    originY: (canvasHeight - _scale2 * height) / 2,
                     scale: _scale2
                   };
                 } // cache to initial values

@@ -222,18 +222,18 @@ var ReactPictureAnnotation = /** @class */ (function (_super) {
                         var canvasNodeRatio = canvasHeight / canvasWidth;
                         if (!isNaN(imageNodeRatio) && !isNaN(canvasNodeRatio)) {
                             if (imageNodeRatio < canvasNodeRatio) {
-                                var scale = canvasWidth / width;
-                                _this.scaleState = {
-                                    originX: 0,
-                                    originY: (canvasHeight - scale * height) / 2,
-                                    scale: scale,
-                                };
-                            }
-                            else {
                                 var scale = canvasHeight / height;
                                 _this.scaleState = {
                                     originX: (canvasWidth - scale * width) / 2,
                                     originY: 0,
+                                    scale: scale,
+                                };
+                            }
+                            else {
+                                var scale = canvasWidth / width;
+                                _this.scaleState = {
+                                    originX: 0,
+                                    originY: (canvasHeight - scale * height) / 2,
                                     scale: scale,
                                 };
                             }
