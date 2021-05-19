@@ -86,6 +86,7 @@ export default class ReactPictureAnnotation extends React.Component<IReactPictur
     zoomIn: () => void;
     zoomOut: () => void;
     zoomReset: () => void;
+    getZoomingScaleByImageDimension: (width: number, height: number) => number;
     private onWheel;
 }
 export {};

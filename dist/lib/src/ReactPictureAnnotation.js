@@ -292,12 +292,14 @@ var ReactPictureAnnotation = /** @class */ (function (_super) {
         };
         _this.zoomIn = function () {
             var prevScale = _this.scaleState.scale;
-            _this.scaleState.scale =
-                _this.scaleState.scale > 10 ? 10 : _this.scaleState.scale + 0.1;
             if (_this.currentImageElement) {
                 // this.scaleState.originX = this.imageCanvasRef.current.width / 2;
                 var offsetX = _this.currentImageElement.width / 2;
                 var offsetY = _this.currentImageElement.height / 2;
+                /** 放大程度由圖片大小比例決定 */
+                var zoomScale = _this.getZoomingScaleByImageDimension(_this.currentImageElement.width, _this.currentImageElement.height);
+                _this.scaleState.scale =
+                    _this.scaleState.scale > 10 ? 10 : _this.scaleState.scale + zoomScale;
                 var _a = _this.scaleState, currentScale = _a.scale, originX = _a.originX, originY = _a.originY;
                 _this.scaleState.originX =
                     offsetX - ((offsetX - originX) / prevScale) * currentScale;
@@ -312,12 +314,14 @@ var ReactPictureAnnotation = /** @class */ (function (_super) {
         };
         _this.zoomOut = function () {
             var prevScale = _this.scaleState.scale;
-            _this.scaleState.scale =
-                _this.scaleState.scale < 0.1 ? 0.1 : _this.scaleState.scale - 0.1;
             if (_this.currentImageElement) {
                 // this.scaleState.originX = this.imageCanvasRef.current.width / 2;
                 var offsetX = _this.currentImageElement.width / 2;
                 var offsetY = _this.currentImageElement.height / 2;
+                /** 縮小程度由圖片大小比例決定 */
+                var zoomScale = _this.getZoomingScaleByImageDimension(_this.currentImageElement.width, _this.currentImageElement.height);
+                _this.scaleState.scale =
+                    _this.scaleState.scale < 0.1 ? 0.1 : _this.scaleState.scale - zoomScale;
                 var _a = _this.scaleState, currentScale = _a.scale, originX = _a.originX, originY = _a.originY;
                 _this.scaleState.originX =
                     offsetX - ((offsetX - originX) / prevScale) * currentScale;
@@ -340,6 +344,10 @@ var ReactPictureAnnotation = /** @class */ (function (_super) {
                 _this.onImageChange();
             });
         };
+        _this.getZoomingScaleByImageDimension = function (width, height) {
+            var scale = 1 / Math.round((width + height) / 2 / 100);
+            return scale;
+        };
         _this.onWheel = function (event) {
             // https://stackoverflow.com/a/31133823/9071503
             var _a = event.currentTarget, clientHeight = _a.clientHeight, scrollTop = _a.scrollTop, scrollHeight = _a.scrollHeight;
@@ -352,7 +360,8 @@ var ReactPictureAnnotation = /** @class */ (function (_super) {
                 event.currentTarget.scrollTop = 0;
             }
             var preScale = _this.scaleState.scale;
-            _this.scaleState.scale += event.deltaY * _this.props.scrollSpeed;
+            var zoomScale = event.deltaY * _this.props.scrollSpeed;
+            _this.scaleState.scale += zoomScale;
             if (_this.scaleState.scale > 10) {
                 _this.scaleState.scale = 10;
             }

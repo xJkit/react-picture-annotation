@@ -472,12 +472,18 @@ export default class ReactPictureAnnotation extends React.Component<
 
   public zoomIn = () => {
     const { scale: prevScale } = this.scaleState;
-    this.scaleState.scale =
-      this.scaleState.scale > 10 ? 10 : this.scaleState.scale + 0.1;
     if (this.currentImageElement) {
       // this.scaleState.originX = this.imageCanvasRef.current.width / 2;
       const offsetX = this.currentImageElement.width / 2;
       const offsetY = this.currentImageElement.height / 2;
+
+      /** 放大程度由圖片大小比例決定 */
+      const zoomScale = this.getZoomingScaleByImageDimension(
+        this.currentImageElement.width,
+        this.currentImageElement.height
+      );
+      this.scaleState.scale =
+        this.scaleState.scale > 10 ? 10 : this.scaleState.scale + zoomScale;
 
       const { scale: currentScale, originX, originY } = this.scaleState;
 
@@ -496,12 +502,18 @@ export default class ReactPictureAnnotation extends React.Component<
 
   public zoomOut = () => {
     const { scale: prevScale } = this.scaleState;
-    this.scaleState.scale =
-      this.scaleState.scale < 0.1 ? 0.1 : this.scaleState.scale - 0.1;
     if (this.currentImageElement) {
       // this.scaleState.originX = this.imageCanvasRef.current.width / 2;
       const offsetX = this.currentImageElement.width / 2;
       const offsetY = this.currentImageElement.height / 2;
+
+      /** 縮小程度由圖片大小比例決定 */
+      const zoomScale = this.getZoomingScaleByImageDimension(
+        this.currentImageElement.width,
+        this.currentImageElement.height
+      );
+      this.scaleState.scale =
+        this.scaleState.scale < 0.1 ? 0.1 : this.scaleState.scale - zoomScale;
 
       const { scale: currentScale, originX, originY } = this.scaleState;
 
@@ -530,6 +542,11 @@ export default class ReactPictureAnnotation extends React.Component<
     });
   };
 
+  public getZoomingScaleByImageDimension = (width: number, height: number) => {
+    const scale = 1 / Math.round((width + height) / 2 / 100);
+    return scale;
+  };
+
   private onWheel = (event: React.WheelEvent<HTMLCanvasElement>) => {
     // https://stackoverflow.com/a/31133823/9071503
     const { clientHeight, scrollTop, scrollHeight } = event.currentTarget;
@@ -542,7 +559,8 @@ export default class ReactPictureAnnotation extends React.Component<
     }
 
     const { scale: preScale } = this.scaleState;
-    this.scaleState.scale += event.deltaY * this.props.scrollSpeed;
+    const zoomScale = event.deltaY * this.props.scrollSpeed;
+    this.scaleState.scale += zoomScale;
     if (this.scaleState.scale > 10) {
       this.scaleState.scale = 10;
     }
