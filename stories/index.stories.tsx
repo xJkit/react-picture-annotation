@@ -129,7 +129,7 @@ storiesOf('Hello World', module)
               shapeStrokeStyle: '#2193ff',
               transformerBackground: 'black',
             }}
-            image="https://source.unsplash.com/random/1200x6000"
+            image="https://source.unsplash.com/random/2000x600"
             inputElement={(value, onChange, onDelete) => (
               <DefaultInputSection
                 placeholder={'Hello world'}

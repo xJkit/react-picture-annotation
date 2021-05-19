@@ -380,21 +380,29 @@ export default class ReactPictureAnnotation extends React.Component<
           const { width: canvasWidth, height: canvasHeight } = this.props;
           const canvasNodeRatio = canvasHeight / canvasWidth;
           if (!isNaN(imageNodeRatio) && !isNaN(canvasNodeRatio)) {
-            if (imageNodeRatio < canvasNodeRatio) {
-              const scale = canvasHeight / height;
-              this.scaleState = {
-                originX: (canvasWidth - scale * width) / 2,
-                originY: 0,
-                scale,
-              };
-            } else {
-              const scale = canvasWidth / width;
-              this.scaleState = {
-                originX: 0,
-                originY: (canvasHeight - scale * height) / 2,
-                scale,
-              };
-            }
+            /** 初始圖片會先填滿寬度 */
+            const scale = canvasWidth / width;
+            this.scaleState = {
+              originX: 0,
+              originY: 0,
+              scale,
+            };
+
+            // if (imageNodeRatio < canvasNodeRatio) {
+            //   const scale = canvasHeight / height;
+            //   this.scaleState = {
+            //     originX: (canvasWidth - scale * width) / 2,
+            //     originY: 0,
+            //     scale,
+            //   };
+            // } else {
+            //   const scale = canvasWidth / width;
+            //   this.scaleState = {
+            //     originX: 0,
+            //     originY: (canvasHeight - scale * height) / 2,
+            //     scale,
+            //   };
+            // }
 
             // cache to initial values
             const {
@@ -471,11 +479,12 @@ export default class ReactPictureAnnotation extends React.Component<
   };
 
   public zoomIn = () => {
+    const currentCanvas = this.canvasRef.current;
     const { scale: prevScale } = this.scaleState;
-    if (this.currentImageElement) {
+    if (this.currentImageElement && currentCanvas) {
       // this.scaleState.originX = this.imageCanvasRef.current.width / 2;
-      const offsetX = this.currentImageElement.width / 2;
-      const offsetY = this.currentImageElement.height / 2;
+      const offsetX = currentCanvas.width / 2;
+      const offsetY = currentCanvas.height / 2;
 
       /** 放大程度由圖片大小比例決定 */
       const zoomScale = this.getZoomingScaleByImageDimension(
@@ -501,11 +510,12 @@ export default class ReactPictureAnnotation extends React.Component<
   };
 
   public zoomOut = () => {
+    const currentCanvas = this.canvasRef.current;
     const { scale: prevScale } = this.scaleState;
-    if (this.currentImageElement) {
+    if (this.currentImageElement && currentCanvas) {
       // this.scaleState.originX = this.imageCanvasRef.current.width / 2;
-      const offsetX = this.currentImageElement.width / 2;
-      const offsetY = this.currentImageElement.height / 2;
+      const offsetX = currentCanvas.width / 2;
+      const offsetY = currentCanvas.height / 2;
 
       /** 縮小程度由圖片大小比例決定 */
       const zoomScale = this.getZoomingScaleByImageDimension(

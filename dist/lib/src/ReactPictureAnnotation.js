@@ -221,22 +221,28 @@ var ReactPictureAnnotation = /** @class */ (function (_super) {
                         var _a = _this.props, canvasWidth = _a.width, canvasHeight = _a.height;
                         var canvasNodeRatio = canvasHeight / canvasWidth;
                         if (!isNaN(imageNodeRatio) && !isNaN(canvasNodeRatio)) {
-                            if (imageNodeRatio < canvasNodeRatio) {
-                                var scale = canvasHeight / height;
-                                _this.scaleState = {
-                                    originX: (canvasWidth - scale * width) / 2,
-                                    originY: 0,
-                                    scale: scale,
-                                };
-                            }
-                            else {
-                                var scale = canvasWidth / width;
-                                _this.scaleState = {
-                                    originX: 0,
-                                    originY: (canvasHeight - scale * height) / 2,
-                                    scale: scale,
-                                };
-                            }
+                            /** 初始圖片會先填滿寬度 */
+                            var scale = canvasWidth / width;
+                            _this.scaleState = {
+                                originX: 0,
+                                originY: 0,
+                                scale: scale,
+                            };
+                            // if (imageNodeRatio < canvasNodeRatio) {
+                            //   const scale = canvasHeight / height;
+                            //   this.scaleState = {
+                            //     originX: (canvasWidth - scale * width) / 2,
+                            //     originY: 0,
+                            //     scale,
+                            //   };
+                            // } else {
+                            //   const scale = canvasWidth / width;
+                            //   this.scaleState = {
+                            //     originX: 0,
+                            //     originY: (canvasHeight - scale * height) / 2,
+                            //     scale,
+                            //   };
+                            // }
                             // cache to initial values
                             var _b = _this.scaleState, initialScale = _b.scale, initialX = _b.originX, initialY = _b.originY;
                             _this.initialScaleState = { initialScale: initialScale, initialX: initialX, initialY: initialY };
@@ -291,11 +297,12 @@ var ReactPictureAnnotation = /** @class */ (function (_super) {
             _this.currentAnnotationState.onMouseLeave();
         };
         _this.zoomIn = function () {
+            var currentCanvas = _this.canvasRef.current;
             var prevScale = _this.scaleState.scale;
-            if (_this.currentImageElement) {
+            if (_this.currentImageElement && currentCanvas) {
                 // this.scaleState.originX = this.imageCanvasRef.current.width / 2;
-                var offsetX = _this.currentImageElement.width / 2;
-                var offsetY = _this.currentImageElement.height / 2;
+                var offsetX = currentCanvas.width / 2;
+                var offsetY = currentCanvas.height / 2;
                 /** 放大程度由圖片大小比例決定 */
                 var zoomScale = _this.getZoomingScaleByImageDimension(_this.currentImageElement.width, _this.currentImageElement.height);
                 _this.scaleState.scale =
@@ -313,11 +320,12 @@ var ReactPictureAnnotation = /** @class */ (function (_super) {
             });
         };
         _this.zoomOut = function () {
+            var currentCanvas = _this.canvasRef.current;
             var prevScale = _this.scaleState.scale;
-            if (_this.currentImageElement) {
+            if (_this.currentImageElement && currentCanvas) {
                 // this.scaleState.originX = this.imageCanvasRef.current.width / 2;
-                var offsetX = _this.currentImageElement.width / 2;
-                var offsetY = _this.currentImageElement.height / 2;
+                var offsetX = currentCanvas.width / 2;
+                var offsetY = currentCanvas.height / 2;
                 /** 縮小程度由圖片大小比例決定 */
                 var zoomScale = _this.getZoomingScaleByImageDimension(_this.currentImageElement.width, _this.currentImageElement.height);
                 _this.scaleState.scale =
